@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+<mapper namespace="com.zerock.myapp.mapper.BoardMapper">
+	<!-- '%', '_' -> Wild Card -->
+	
+	
+	<!-- getAllList -->
+	<select 
+		id="getAllList" 
+		resultType="com.zerock.myapp.domain.BoardVO">
+		
+		<![CDATA[
+			SELECT * 
+			FROM 
+				tbl_board 
+			WHERE 
+				bno <= 100 AND bno >= 30
+		]]>
+		
+	</select>
+	
+	<!-- =========================================================================== -->
+	
+	<!-- insert -->
+	<insert 
+		id="insert" 
+		parameterType="com.zerock.myapp.domain.BoardDTO">		
+	
+		INSERT INTO 
+			tbl_board(bno, title, content, writer)
+		VALUES						
+			(seq_board.NEXTVAL, #{title}, #{content}, #{writer})
+			
+	</insert>				
+	<!-- #{} 이것은 Getter method를 부른다.이러면, getTitle이 되어서, 그 타입을 리턴해준다. -->
+	
+	
+	<!-- insertSelectKey -->
+	<insert 
+		id="insertSelectKey" 
+		parameterType="com.zerock.myapp.domain.BoardDTO">
+		
+		<selectKey
+			keyProperty="bno"
+			order="BEFORE"
+			resultType="long">
+			
+			SELECT seq_board.NEXTVAL
+			FROM
+				dual
+					
+		</selectKey>	
+	
+		INSERT INTO 
+			tbl_board(bno, title, content, writer)
+		VALUES						
+			( #{bno}, #{title}, #{content}, #{writer} )
+			
+	</insert>				
+	<!-- #{} 이것은 Getter method를 부른다.이러면, getTitle이 되어서, 그 타입을 리턴해준다. -->
+	
+	<!-- =========================================================================== -->
+	
+	<!-- readBno -->
+	<select 
+		id="read"			
+		parameterType="long" 
+		resultType="com.zerock.myapp.domain.BoardVO"
+		statementType="PREPARED"
+		flushCache="true"
+		timeout="1">
+	
+		SELECT *
+		FROM 
+			tbl_board 
+		WHERE 
+			bno = #{bno}
+		
+	</select>
+	
+	<!-- =========================================================================== -->
+	
+	<!-- deleteBno -->
+	<delete 
+		id="delete"
+		parameterType="long"
+		statementType="PREPARED"
+		flushCache="false"
+		timeout="1">
+		
+		DELETE FROM 
+			tbl_board
+		WHERE 
+			bno = #{bno}
+			
+	</delete>
+	
+	<!-- =========================================================================== -->
+	
+	<!-- updateContent -->
+	<update 
+		id="updateContent" 
+		parameterType="com.zerock.myapp.domain.BoardDTO">
+		
+		UPDATE
+			tbl_board
+		SET
+			content = #{content},
+			update_ts = sysdate
+		WHERE
+			bno = #{bno}		
+			
+	</update >
+	
+	<!-- =========================================================================== -->
+	
+	<!-- update -->
+	<update 
+		id="update"
+		parameterType="com.zerock.myapp.domain.BoardDTO"
+		statementType="PREPARED"
+		flushCache="false"
+		timeout="1">
+		
+		UPDATE tbl_board
+		SET
+			title = #{title},
+			content = #{content},
+			writer = #{writer},
+			update_ts = sysdate
+		WHERE
+			bno = #{bno}
+			
+	</update >
+	
+	
+</mapper>
