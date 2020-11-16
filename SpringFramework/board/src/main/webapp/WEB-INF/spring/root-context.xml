@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+	
+	<!-- HikariCP -->
+	<bean 
+		id="hikariConfig" 
+		class="com.zaxxer.hikari.HikariConfig" 
+		primary="true">
+		
+   <!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		
+   <!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@DB202009161613_high?TNS_ADMIN=C:/app/oracle/Wallet_DB202009161613/" /> -->
+   <!-- <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@DB202009161613_high?TNS_ADMIN=C:/app/oracle/Wallet_DB202009161613/" /> -->
+   		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.0.53:1521/XEPDB1" />
+		<property name="username" value="ADMIN" />
+		<property name="password" value="oracle" />	
+	</bean>
+	
+	<!-- Hikari Datasource -->
+	<bean 
+		id="hikariDataSource" 
+		class="com.zaxxer.hikari.HikariDataSource" 
+		destroy-method="close"
+		primary="false">
+		
+		<constructor-arg ref="hikariConfig" name="configuration"/>	
+	</bean>	
+	
+	
+	<!-- sqlSessionFactory + mybatis-spring -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean" 
+		primary="false">
+		
+		<property name="dataSource" ref="hikariDataSource" />
+		<property name="configLocation" value="classpath:/mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:mybatis/**/*Mapper.xml" />	
+	</bean>	
+
+	<!-- sqlSession -->
+	<bean 
+		id="sqlsession" 
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache"
+		primary="false">
+		
+		<constructor-arg ref="sqlSessionFactory" name="sqlSessionFactory" />
+	</bean>
+	
+	
+	<!-- scan -->
+	<mybatis-spring:scan base-package="com.zerock.myapp.mapper"/>
+				
+</beans>
