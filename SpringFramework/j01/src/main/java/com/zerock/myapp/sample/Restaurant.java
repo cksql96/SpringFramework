@@ -1,0 +1,25 @@
+package com.zerock.myapp.sample;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import lombok.Data;
+import lombok.Setter;
+
+
+
+@Component			//Bean 객체로 등록할 클래스이면, 이 어노테이션을 준다.
+
+@Data
+//@AllArgsConstructor
+public class Restaurant {
+	
+	//주입신호방법(시그널)		-스프링 콘테이너에다가 주입함. Restaurant가 Chef라는 클래스를 의존한다는것을.
+//	@Resource								//3번째 방법
+//	@Inject									//2번째 방법
+//	@Autowired								//1번째 방법
+	@Setter(onMethod_ = {@Autowired})		//4번째 방법
+//	@Setter				//-이걸로 하면, 실행할때, Test에서, null값이 들어간다.
+	private Chef chef;
+
+}	//end class

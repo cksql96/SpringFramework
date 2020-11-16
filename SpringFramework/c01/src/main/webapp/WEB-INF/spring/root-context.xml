@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<mybatis-spring:scan base-package="com.zerock.myapp.mapper"/>
+	
+	<!-- HikariCP -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@PDB" />							<!--이것이 tnsalias 	-->
+		<!-- <property name="jdbcUrl" value="jdbc:oracle:thin:192.168.0.27:1521:XEPDB1" />		이것이 easy connect	-->
+
+		<property name="username" value="HR" />
+		<property name="password" value="oracle" />		
+	</bean>
+
+
+	<bean 
+		id="hikariDataSource" 
+		class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+
+		<constructor-arg ref="hikariConfig" name="configuration" />
+	</bean>
+	
+	<!-- spring-jdbc data source -->
+	<bean 
+		id="driverManagerDataSource" 
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@PDB" />
+		<property name="username" value="HR" />
+		<property name="password" value="oracle" />
+	</bean>
+	
+	<!-- spring-jdbc data source 2 -->
+	<bean
+		id="simpleDriverDataSource" 
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@PDB" />
+		<property name="username" value="HR" />
+		<property name="password" value="oracle" />
+	</bean>
+	
+	<!-- oracle data source -->
+	<bean
+		id="oracleDataSource" 
+		class="oracle.jdbc.pool.OracleDataSource">
+
+		<property name="driverType" value="thin" />
+		<property name="URL" value="jdbc:oracle:thin:@PDB" />
+		<property name="user" value="HR" />
+		<property name="password" value="oracle" />
+		<property name="loginTimeout" value="3" />
+	</bean>
+	
+	<!-- tomcat-jdbc data source -->
+	<bean
+		id="tomcatDataSource"
+		class="org.apache.tomcat.jdbc.pool.DataSource">
+
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@PDB" />
+		<property name="username" value="HR" />
+		<property name="password" value="oracle" />
+		<property name="loginTimeout" value="1" />
+		<property name="initSQL" value="SELECT 1 FROM dual" />
+		<property name="validationInterval" value="3000" />
+		<property name="validationQuery" value="SELECT 1 FROM dual" />
+		<property name="validationQueryTimeout" value="1" />
+		<property name="maxWait" value="2" />
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="1" />
+		<property name="maxIdle" value="2" />
+		<property name="maxActive" value="2" />		
+	</bean>
+	
+	<!-- mybatis-Spring -->
+	<bean
+		id="sqlSessionFactory" 
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+
+		<property name="dataSource" ref="hikariDataSource" />
+
+		<!-- Add configuration for Mybatis -->
+		<property 
+			name="configLocation" 
+			value="classpath:mybatis-config.xml" />
+		
+		<!-- Add location for MyBatis XML Mapper files -->
+		<property 
+			name="mapperLocations" 
+			value="classpath:mybatis/mapper**/*Mapper.xml" />
+	</bean>
+	
+	
+	<!-- mybatis -->
+	<bean
+		id="sqlSession" 
+		class="org.mybatis.spring.SqlSessionTemplate">
+		
+		<constructor-arg 
+			name ="sqlSessionFactory" 
+			ref="sqlSessionFactory"/>
+	</bean>
+		
+	
+</beans>
