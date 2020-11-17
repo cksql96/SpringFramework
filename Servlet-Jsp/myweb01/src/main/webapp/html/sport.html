@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>sport</title>
+</head>
+
+<body>
+
+	<h1>getParameter 실습</h1>
+    
+    <form action="/myweb01/Sport" method="POST">
+
+        <fieldset>
+
+            <legend>좋아하는 운동 및 성별</legend>
+
+            <ul>
+                <li>
+                    <label for="baseball">야구</label>
+                    <input type="checkbox" name="sports" value="야구">
+                    
+                    <label for="football">&nbsp;&nbsp;&nbsp;축구</label>
+                    <input type="checkbox" name="sports" value="축구">
+                    
+                    <label for="basketball">&nbsp;&nbsp;&nbsp;농구</label>
+                    <input type="checkbox" name="sports" value="농구">
+                </li>
+                
+                <li>
+                    <label for="sex">남</label>
+                    <input type="radio" name="sex" value="남자" checked>
+                    
+                    <label for="sex">&nbsp;&nbsp;&nbsp;여</label>
+                    <input type="radio" name="sex" value="여자">
+                </li>
+             
+                <li>
+                    <input type="submit" value="전송">
+                </li>
+            </ul>
+
+        </fieldset>
+
+    </form>
+
+</body>
+
+</html>

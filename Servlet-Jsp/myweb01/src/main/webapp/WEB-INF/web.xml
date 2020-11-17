@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<web-app 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
+	id="WebApp_ID" 
+	version="3.1">
+	
+  <display-name>myweb01</display-name>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>  
+  
+  
+  
+  <!-- ================================================================= -->  
+  <!-- 						CONTEXT PARAMETER							 -->
+  <!-- ================================================================= -->  
+  <context-param>
+  		<description>1st. context parameter</description>
+  		<param-name>contextParam1</param-name>
+  		<param-value>contextValue1</param-value>
+  </context-param>
+  
+  <context-param>
+  		<description>2nd. context parameter</description>
+  		<param-name>contextParam2</param-name>
+  		<param-value>contextValue2</param-value>
+  </context-param>
+  
+  <!-- ================================================================ -->
+  				<!-- JDBC 연결 설정을 위한 초기화 파라미터 -->
+  <context-param>
+  		<description>Using in EmpSelectServlet</description>
+  		<param-name>jdbcDriverClass</param-name>
+  		<param-value>net.sf.log4jdbc.sql.jdbcapi.DriverSpy</param-value>
+  		<!-- <param-value>oracle.jdbc.driver.OracleDriver</param-value> -->  		
+  </context-param>
+  
+  <context-param>
+  		<description>Using in EmpSelectServlet</description>
+  		<param-name>jdbcURL</param-name>
+  		<!-- <param-value>jdbc:log4jdbc:oracle:thin:@PDB</param-value> -->
+  		<param-value>jdbc:log4jdbc:oracle:thin:@192.168.0.53:1521/XEPDB1</param-value>  		
+  </context-param>
+  
+  <context-param>
+  		<description>Using in EmpSelectServlet</description>
+  		<param-name>userName</param-name>
+  		<param-value>scott</param-value>
+  </context-param>
+  
+  <context-param>
+  		<description>Using in EmpSelectServlet</description>
+  		<param-name>password</param-name>
+  		<param-value>oracle</param-value>
+  </context-param>
+
+  <!-- ================================================================= -->  
+  <!-- 							SERVLET									 -->
+  <!-- ================================================================= -->
+  <servlet>
+		<servlet-name>ServletBasedOnWebxml</servlet-name>
+      	<servlet-class>com.zerock.myweb01.servlet.ServletBasedOnWebxml</servlet-class>
+      
+      	<init-param>
+      		<description>1st. Initialization Parameter</description>
+      		
+      		<param-name>param1</param-name>
+      		<param-value>value1</param-value>
+      	</init-param>
+      
+      	<init-param>
+      		<description>2nd. Initialization Parameter</description>
+      		
+      		<param-name>param2</param-name>
+      		<param-value>value2</param-value>
+      	</init-param>
+  </servlet>
+
+  <servlet-mapping>
+      	<servlet-name>ServletBasedOnWebxml</servlet-name>
+      	<url-pattern>/hello2</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- ================================================================= -->
+  <servlet>
+		<servlet-name>Range</servlet-name>
+      	<servlet-class>com.zerock.myweb01.servlet.Range</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+      	<servlet-name>Range</servlet-name>
+      	<url-pattern>/Range</url-pattern>
+  </servlet-mapping>
+  
+  <!-- ================================================================= -->  
+  <servlet>
+		<servlet-name>ServletDate</servlet-name>
+      	<servlet-class>com.zerock.myweb01.servlet.ServletDate</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+      	<servlet-name>ServletDate</servlet-name>
+      	<url-pattern>/Date</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- ================================================================= -->  
+  <!-- 								LISENTER							 -->
+  <!-- ================================================================= -->  
+  <listener>
+  	<description>HttpSession Event Listener</description>
+  	<display-name>HttpSessionListener</display-name>
+  	<listener-class>com.zerock.myweb01.listener.HttpSessionListener</listener-class>
+  </listener>
+  
+  <!-- ================================================================= -->  
+  <!-- 								FILTER								 -->
+  <!-- ================================================================= -->  
+	
+<!-- 	<filter>
+		<description>MyFilter02</description>
+		<display-name>MyFilter02</display-name>
+		<filter-name>MyFilter02</filter-name>
+		<filter-class>com.zerock.myweb01.filter.MyFilter02</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>MyFilter02</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping> -->
+	
+	
+  <!-- ================================================================= -->  
+  <!-- 								TIME-OUT							 -->
+  <!-- ================================================================= -->    
+  
+  <!-- <session-config>
+  	분단위로 세션 파괴
+	<session-timeout>1</session-timeout>
+  </session-config> -->
+  		
+
+  
+</web-app>

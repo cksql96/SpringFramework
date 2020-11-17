@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+
+	<!-- maxActive deprecared -->
+	<!-- 이 파일에 사용한 Resource 태그를 통해서, 현재의 웹 어플리케이션에서만
+		사용가능한 DataSource를 생성하는 것임 -->
+	<Resource
+		name="jdbc/OraclePDB"
+		auth="Container"
+		type="javax.sql.DataSource"
+		username="scott"
+		password="oracle"
+		driverClassName="oracle.jdbc.driver.OracleDriver"
+		url="jdbc:oracle:thin:@PDB"
+		maxTotal="8"
+		maxIdle="10" 
+	/>
+		
+	<Resource
+		name="jdbc/log4jdbc/oracle"
+		auth="Container"
+		type="javax.sql.DataSource"
+		username="scott"
+		password="oracle"
+		driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"
+		url="jdbc:log4jdbc:oracle:thin:@PDB"
+		maxTotal="8"
+		maxIdle="1"
+	/>
+	
+	
+</Context>

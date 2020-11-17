@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>number</title>
+</head>
+
+<body>
+    
+    <form action="/myweb01/Echo" method="POST">
+
+        <fieldset>
+
+            <legend>실습 폼</legend>
+
+            <ul>
+                <li>
+                    <label for="age">나이</label>
+                    <input type="number" name="age" min="1" max="100" step="1">
+                </li>
+                
+                <li>
+                    <label for="email">이메일</label>
+                    <input 
+                    	type="email" 
+                    	name="email" 
+                    	required="required" 
+                    	placeholder="aaa@bbb.com" 
+                    	multiple>
+                </li>
+
+                <li>
+                    <input type="submit" value="전송">
+                </li>
+            </ul>
+
+        </fieldset>
+
+    </form>
+
+</body>
+
+</html>
