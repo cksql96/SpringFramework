@@ -1,0 +1,154 @@
+/////////////////////////Git  깃 시작하기 ///////////////////////////////
+
+파일을 수정할때마다 소위 말하는 버전을 바꾸는 기록을 남긴다. 
+버전 관리의 핵심이고, 버전관리 소스를 어딘가에 백업을 해놔야한다. 
+컴퓨터 안에 하는게 아니라 원격에 있는 원격저장소에 백업을 해놓는다. 
+
+원격 저장소를 기준으로 여러 사람이 올려놓고 공유할 수 있다.
+
+
+커맨드 라인 인터페이스(CLI)
+도스에서 버전잉도하고, 커맨드방식으로 한다. 기본적인 리눅스 명령어를 알아야하며, 
+개발자 대부분은 커맨드 라인 인터페이스로 깃을 사용한다.
+
+https://git-scm.com/ 사이트 들어가서 우측버전을 클릭 다운을하고,
+실행을하면 -> 두번 넘어가면 모두 클릭후 설치 - 여기서 Git Bash Here 이체크라인이 
+명령창이다 Newt 한번 들어가면 use Visual Studio Code as Git's default editor을 체크라인에
+편집기를 설정후 Nest하고, 첫번째 클릭후 Nest, 두번째 Git from 클릭 -> 
+그럼 두가지가 나오고 첫번쨰는 암호화된 원격을 주고 받고자하면 위에꺼 Use the OpenSSL library
+위에꺼 선택후 -> Chekout Windows-style클릭 -> 터미널을 어떤걸 쓸래? user windows'클릭 ->
+Default-> Git Credential Manager Core-> Enable file -> Enable experimental 체크 풀고 Install -> 끝 ~  
+도스창 -> git version , git --version
+
+
+git 시작 메뉴에 git 폴더에 git Bash창을 띄우고 여기부터 리눅스 명령어를 사용해야한다.
+
+깃을 사용하면, 깃 환경설정하기를 들어야가야한다. 누군가 A.JAVA를 생성할때 버전잉을하고 
+저장소에 저장하기 위해서 버전잉할 폴더명이 있어야한다. 
+
+1. app밑에 git_repository 폴더를 만들고 -> 환경설정 들어가야한다. 들어가는 방법으로 
+2가지를 설정해야한다. 
+
+2. git config 명령어를 사용하고 , 두가지를 수행한다. user.name"이름", user.email"메일 주소"
+두가지를 해야지 이정보를 버전이 늘어날때마다 누가 이버전을 만들었냐 설정하는것이다.
+
+
+*Linux Command List For git Bash * 명령어
+1. df -h  현재 구성 파일시스템 목록을 표기
+2. cd /c/app/git_repository 우리가 정한 저장소 폴더로 //이동 여기까지 이동 후 
+3. clear 를 써서 화면을 다 지우고
+4. git config --list  깃에 대한 모든설정값이 나온다.  키, 벨류 즉 항복값이 나온다 //키 = 값
+5. git config --list --global 항목중 "전역설정항목" 만 보여주라는것이고
+6. git config --list --loacal 항목중 "지역설정항목" 만 보여주라는것이고  (현재만적용된다)
+7. git config --list --system 항목중 "OS설정항목만" 만 보여주는것 
+
+다해보고
+git config --global user.name ""  이름을 문자열로 넣어줘라 ~ (설정값을 추가하는것이다)
+전역 설정으로 user.name항목을 추가하고 (값: KangSungWoo)으로 추가함
+git config --global user.email "whwlrwkdal@gmail.com" 값으로 추가함 
+확인하는 방법 git config --listgit
+
+   내가 원하는 목록만 나오는 방법
+앞에서 내가 썻던 출력 내용중 user단어를 잡아라 ~
+git config --list --global | grep user  전역설정목록에서 "user"란 단어를 포함하고있는
+행을 추출( grep 명령을 통해) " | "명령어는, 왼쪽 명령의 출력결과를, 오른쪽 명령어의 입력으로
+주라!!라는 의미 
+
+지금까지 버전잉을 남길 이름과, 이메일,설정했다. 환경설정을 완료하고, 
+아까 설정했던 저장소를 설정하는데 일반폴더안에 버전잉을 할 수 있는 폴더로 탈바꿈을 해야한다.
+깃의 종류에는 1. 지역저장소가 있고 영어로 Local repository하고 (이곳은 우리PC내부저장소)
+           2.원격저장소 Remote Repositroy가 있다.   (이곳은 로컬 중앙저장소)
+버전관리를하다가 필요에의해 백업을 해야하는데 백업을 원격저장소에 한다. 
+원격저장소에서도 버전관리를 한다. 원격저장소와, 지역저장소 양쪽을 서로간 동기화시켜야한다.
+
+팀단위로 개발할때 , 로컬저장소가 아니니 원격 저장소에 올려놓은 프로젝트를 모든팀원이 공유하고,
+개발을 수행하게 된다.
+C:/app/git_repository로 설정해놨는데 이 폴더는 Top level folder이다. 저기안에 여러
+저장소가 생겨날것이다.
+
+   새로운 저장소를 만들어보자 
+pwd 치면 현재 내가있는 장소를 보여줌 Print Working Directory 명령어이다.
+mkdir hello-git   을쳐서 디렉터리를 생성 ~
+ll  현재 내가있는 폴더 안에 모든 파일과 디렉터리를 표시
+ll or $ ll -a 현재 내가있는 폴더 안에 숨겨져있는 모든것이 다나온다
+(1)방법 : git init ./hello-git/ 현재폴더 아래에 있는 hello-git 이라고 하는 폴더를 git
+         지역 저장소로 만들어라!!
+(2)방법 : cd hello-git hello-git 폴더로 이동한 다음에,  git init or git init .
+         바로 현재폴더에 만들어진다
+들어가서 ll치면 안나옴 ll -a 치면  .git 이런식으로 나옴, .은 히든이고 
+수정한 내용을 저장하면 버전이라고 한다. 버전을 저장하는 .git폴더에 저장된다. 일반폴더에서
+지역저장소 폴더로 바뀌게된다. 
+지역폴더를 일반 폴더를 바꾸는 방법은 : .git를 삭제하면된다 
+rm -rf .git 하면 삭제가된다. 현재의 폴더아래에 있는 .git 이라는 폴더를 강제로라도 삭제하라
+(.git 폴더 아래에 또 다른 폴더까지 포함)
+
+
+15. $touch hello.txt	(현재위치에 크기가 0인 txt파일 만들기)
+
+
+16. $git status		(현재의 지역저장소의 상태를 보여준다.)
+	-untracked files도 보여준다.
+
+
+17. $git add hello.txt    $git add .	(앞에는 한개만, 뒤에는 모든것들다)
+	(작업트리에서 발생한 새로운 변경 내역을 스테이지에 올려 놓는 작업(스테이징))
+
+
+18. $git rm --cached hello.txt		
+	(스테이지에 올라간 파일을 다시 언 스테이지 시킨다.)
+	단 이 명령은, Untracked file인 경우에만 가능.
+	*Untracked files - 단 한번도 버전을 기록하지 않은 파일
+	*tracked files - 단 한번이라도 버전을 기록해서, 계속적으로 변경을 
+			추적할 수 있는 상태의 파일
+
+19. $git commit -m <Commit Message>	
+	(-m은 커밋 메세지를 추가로 넣어준다. <> 안에 문자열, 한글자면 <> 생략가능>
+	(스테이지 영역에 올라와있는 모든 변경된 파일들을 지역 저장소의 버전 데이터베이스에
+	영구적으로 저장함. 결국 버전 데이터베이스에 새로운 버전이 생성된다)
+		$git status를 이후에 수행하면, 현재의 작업 트리는 아주 깨끗하다 라는 메세지가 나옴.
+
+
+20. $git log
+	버전 데이터베이스에 기록된(committed) 모든 버전 목록을 상세하게 보여줌.
+	$git log --oneline	-1개의 행으로 간략하게 보여준다.
+	$git log --source	-처음에 작업한 branch를 보여준다.
+	$git log --branches	-마지막에 작업한 branch를 보여준다.
+	$git log --parents	-어떤 파일을 부모로 삼았는지 보여준다.
+	$git log --stat		-Commit된 파일의 정보
+	$git log --graph
+
+
+21. $echo hello
+	지정한 값을 그대로 돌려주는 명령어
+
+
+22. $echo hello > hello.txt		(>는 redirect)
+	- hello라는것을 echo를 사용해서 돌려주는데, 이것을 >(redirect)를 사용하여,
+	hello.txt에 넣어준다.
+
+
+23. 
+	$cat hello.txt    
+	$head -100 hello.txt     	-시작부터 100라인 보여줘라	(라인수 지정 안해도 됌)
+	$tail -100 hello.txt    	-끝부터 100라인을 보여줘라	(라인수 지정 안해도 됌)
+	$more hello.txt
+
+
+24. $git restore hello.txt
+	변경 내역을 취소한다.(add되기 전의 파일)
+
+
+25. $echo hello, world >> hello.txt
+	-   > 기호를 한개를 적으면 덮어쓰기, 두개를 넣으면 append
+
+
+26. $git restore --staged hello.txt
+	- tracked파일을 언스테이징 하기 위한 명령어
+
+
+27. $git commit -a -m Commit5		(-a는 add -m은 메세지넣겠다)
+    $git commit -am <Commit Message>	(-a와 -m을 합쳐서 사용 가능하다)
+	-tracked 파일에 한해서, add와 commit을 동시에 수행한다.
+
+
+28. $git push -v origin master		-푸쉬 한다.
