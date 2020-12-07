@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->		
+		
+	<aop:aspectj-autoproxy/>
+	
+	<context:annotation-config />
+	
+	<context:component-scan base-package="com.zerock.myapp.service" />
+	
+	<mybatis-spring:scan base-package="com.zerock.myapp.mapper"/>
+	
+	<tx:annotation-driven />
+	
+	<bean 
+		id = "calculatorImpl" 
+		class = "com.zerock.myapp.aop.CalculatorImpl" 
+		primary = "true" />
+		
+	<bean 
+		id = "reCalculatorImpl" 
+		class = "com.zerock.myapp.aop.ReCalculatorImpl" 
+		primary = "false" />
+		
+	<!-- <bean
+		id = "executionTimeAspect"
+		class = "com.zerock.myapp.aspect.ExecutionTimeAspect" /> -->
+		
+	<bean
+		id = "logAdvice"
+		class = "com.zerock.myapp.aspect.LogAdvice" />
+		
+	<bean
+		id = "transactionManager"
+		class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		
+		<property name = "dataSource" ref = "hikariDataSource" />	
+	</bean>	
+		
+		
+	<!-- ================================================================================= -->
+	<!-- HikariCP -->
+	<bean 
+		id="hikariConfig" 
+		class="com.zaxxer.hikari.HikariConfig" 
+		primary="true">
+		
+   		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+   		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@PDB" />
+		<property name="username" value="scott" />
+		<property name="password" value="oracle" />	
+	</bean>
+	
+	<!-- Hikari Datasource -->
+	<bean 
+		id="hikariDataSource" 
+		class="com.zaxxer.hikari.HikariDataSource" 
+		destroy-method="close"
+		primary="false">
+		
+		<constructor-arg ref="hikariConfig" name="configuration"/>	
+	</bean>	
+	
+	<!-- sqlSessionFactory + mybatis-spring -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean" 
+		primary="false">
+		
+		<property name="dataSource" ref="hikariDataSource" />
+	</bean>	
+
+	<!-- sqlSession -->
+	<bean 
+		id="sqlsession" 
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache"
+		primary="false">
+		
+		<constructor-arg ref="sqlSessionFactory" name="sqlSessionFactory" />
+	</bean>
+	
+	
+</beans>

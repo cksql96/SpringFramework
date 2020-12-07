@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace = "testsqlmapper">
+
+	<select id = "getTime" resultType = "string" >
+		SELECT sysdate FROM daul
+	</select>
+	
+	<select id = "getAllEmp" resultType="com.zerock.myapp.domain.EmployeeVO">
+		SELECT * FROM employees
+	</select>
+	
+</mapper>
