@@ -1,0 +1,53 @@
+GET http://www.google.com HTTP/1.1
+
+GET http://localhost:8800/doA HTTP/1.1
+
+GET http://localhost:8800/sample/getString HTTP/1.1
+
+GET http://localhost:8800/sample/getEmployeeVO HTTP/1.1
+GET http://localhost:8800/sample/getEmployeeVO.json HTTP/1.1
+GET http://localhost:8800/sample/getEmployeeVO.xml HTTP/1.1
+
+
+GET http://localhost:8800/sample/getList HTTP/1.1
+GET http://localhost:8800/sample/getList.xml HTTP/1.1
+GET http://localhost:8800/sample/getList.json HTTP/1.1
+
+
+POST http://localhost:8800/sample/getMap HTTP/1.1
+POST http://localhost:8800/sample/getMap.json HTTP/1.1
+POST http://localhost:8800/sample/getMap.xml HTTP/1.1
+
+
+GET http://localhost:8800/sample/responseEntity HTTP/1.1
+GET http://localhost:8800/sample/responseEntity?height=151&weight=70 HTTP/1.1
+GET http://localhost:8800/sample/responseEntity?height=149&weight=70 HTTP/1.1
+GET http://localhost:8800/sample/responseEntity.json?height=149&weight=70 HTTP/1.1
+GET http://localhost:8800/sample/responseEntity.xml?height=149&weight=70 HTTP/1.1
+
+
+
+POST http://localhost:8800/sample/product/bbb/aaa HTTP/1.1
+POST http://localhost:8800/sample/product/bag/1234.json HTTP/1.1
+POST http://localhost:8800/sample/product/bag/1234.xml HTTP/1.1
+
+
+POST http://localhost:8800/sample/ticket HTTP/1.1
+#이것은 요청을 보내는 문서가 json이라는것을 알려준다.
+content-type: application/json
+
+{
+    "tno": 1234567890,
+    "owner": "chan",
+    "grade": "A++"
+}
+
+
+POST http://localhost:8800/sample/ticket.json HTTP/1.1
+content-type: application/json
+
+{
+    "tno": 1234567890,
+    "owner": "chan",
+    "grade": "A++"
+}
