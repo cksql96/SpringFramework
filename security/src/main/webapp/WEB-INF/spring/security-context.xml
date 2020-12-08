@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-5.2.xsd">
+
+	<bean 
+		id="customAccessDenied" 
+		class="com.zerock.myapp.security.CustomAccessDeniedHandler" />
+		
+	<bean 
+		id="customLoginSuccess" 
+		class="com.zerock.myapp.security.CustomLoginSuccessHandler" />
+	
+	
+	<!-- ==========================권한정보========================== -->
+	<sec:http auto-config="true" use-expressions="true">
+	
+		<sec:intercept-url pattern="/sample/all" access="permitAll" method="GET"/>
+		<sec:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" method="GET"/>		
+		<sec:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')" method="GET"/>
+		
+		<sec:form-login 
+			login-page="/sample/customLogin" 
+			authentication-success-handler-ref="customLoginSuccess"/>
+		
+		<!-- <sec:access-denied-handler error-page="/sample/accessError"/> -->
+		<sec:access-denied-handler ref="customAccessDenied"/>
+		
+		<sec:csrf disabled="true" />	<!-- 넣으면 안된다. -->
+	</sec:http>
+
+	<!-- ==========================인증정보========================== -->
+	<sec:authentication-manager>
+	
+		<sec:authentication-provider>
+		
+			<sec:user-service>
+			
+				<sec:user name="member" password="{noop}member" authorities="ROLE_MEMBER" />
+				
+				<sec:user 
+					name="admin" 
+					password="{noop}admin" 
+					authorities="ROLE_MEMBER, ROLE_ADMIN" />
+				
+			</sec:user-service>
+			
+		</sec:authentication-provider>
+		
+	</sec:authentication-manager>
+
+</beans>
